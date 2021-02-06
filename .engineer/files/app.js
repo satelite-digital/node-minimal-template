@@ -33,7 +33,8 @@ app.use('/auth', require('./routes/auth'))
 
 app.use('/api/user', require('./routes/user'))
 
-app.use('/api/user', require('./routes/user'))
-app.use('/api/app', require('./routes/app'))
+{{#each schema}}
+app.use('/api/{{id}}', require('./routes/{{id}}'))
+{{/each}}
 // start server
 app.listen(3001, () => console.log("Server listening on http://localhost:3001"))

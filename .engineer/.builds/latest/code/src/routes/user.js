@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const JWT_KEY = process.env.JWT_KEY;
 const passport = require('passport');
 
-const todoService = require('../db/services/todo');
+const userService = require('../services/user');
 
 const router = express();
 
@@ -22,27 +22,27 @@ router.use((req, res, next) => {
 })
 
 router.get('/', async (req, res) => {
-  todo = await todoService.findAll()
-  res.send(todo);
+  user = await userService.findAll()
+  res.send(user);
 })
 
 router.get('/:id', async (req, res) => {
-  todo = await todoService.findById(req.params.id)
-  res.send(todo);
+  user = await userService.findById(req.params.id)
+  res.send(user);
 })
 
 router.post('/', async (req, res) =>{
-  newTodo = await todoService.create(req.body)
-  res.send(newTodo)
+  new = await userService.create(req.body)
+  res.send(new)
 })
 
 router.put('/:id', async (req, res) =>{
-  updatedTodo = await todoService.update(req.params.id, req.body)
+  updated = await userService.update(req.params.id, req.body)
   res.send({ updated : true, id : req.params.id})
 })
 
 router.delete('/:id', async (req, res) =>{
-  deletedTodo = await todoService.delete(req.params.id)
+  deleted = await userService.delete(req.params.id)
   res.send({ deleted : true, id : req.params.id})
 })
 

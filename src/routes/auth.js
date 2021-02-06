@@ -5,7 +5,7 @@ const { Strategy } = require('passport-github');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 
-const users = require('../db/services/user');
+const users = require('../services/user');
 const JWT_KEY = process.env.JWT_KEY
 
 const router = express();
@@ -52,7 +52,7 @@ router.get(
     const token = jwt.sign({id: req.user.id}, JWT_KEY, {expiresIn: 60 * 60 * 24 * 1000})
     req.logIn(req.user, function(err) {
       if (err) return next(err);
-      res.redirect(`${process.env.CLIENT_PROTOCOL}://${process.env.CLIENT_HOST}:${process.env.CLIENT_PORT}?token=${token}`)
+      res.redirect(`${process.env.CLIENT_PROTOCOL}://${process.env.CLIENT_HOST}:${process.env.CLIENT_PORT}/#/login?token=${token}`)
     });
         
   },
@@ -74,7 +74,7 @@ router.get(
     const token = jwt.sign({id: req.user.id}, process.env.JWT_KEY, {expiresIn: 60 * 60 * 24 * 1000})
     req.logIn(req.user, function(err) {
       if (err) return next(err); ;
-      res.redirect(`${process.env.CLIENT_PROTOCOL}://${process.env.CLIENT_HOST}:${process.env.CLIENT_PORT}?token=${token}`)
+      res.redirect(`${process.env.CLIENT_PROTOCOL}://${process.env.CLIENT_HOST}:${process.env.CLIENT_PORT}/#/login?token=${token}`)
     });
         
   },
