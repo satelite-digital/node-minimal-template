@@ -1,39 +1,38 @@
-// api/db/services/user.js
-const {{firstUppercase}} = require('../models/{{id}}');
+const prisma = require('../prisma')
 
 module.exports = {
   {{#if options.isUser}}
   findOrCreate: async (oAuthData) => {
     
     try {
-      const user = await User.findOne( { where : { oAuthId: oAuthData.id } });
+      const {{id}} = await prisma.{{id}}.findFirst( { where : { oAuthId: oAuthData.id } });
 
-      if (!user) {
-        const newUser =  await User.create({oAuthId: oAuthData.id, oAuthData: oAuthData})
-        return newUser
+      if (!{{id}}) {
+        const new{{capitalized}} =  await prisma.{{id}}.create({ data : {oAuthId: oAuthData.id, oAuthData: oAuthData} })
+        return new{{capitalized}}
       }
-      return user;
+      return {{id}};
     } catch (e) {
       return Error('User not found');
     }
   },
   {{/if}}
-  findAll: async (id) => {
-    return {{firstUppercase}}.findAll();
+  findMany: async (id) => {
+    return prisma.{{id}}.findMany();
   },
   findById: async (id) => {
-    return {{firstUppercase}}.findOne({ where : { id: id } });
+    return prisma.{{id}}.findUnique({ where : { id: id } });
   },
-  create : async (data)=>{
-    return {{firstUppercase}}.create(data)
+  create : async (data, user)=>{
+    return prisma.{{id}}.create({ data })
   },
   update : async (id, data)=>{
-    return {{firstUppercase}}.update(data, { where : {
-      id : id || {{firstUppercase}}.id
+    return prisma.{{id}}.update({ data , where : {
+      id : id || prisma.{{id}}.id
     } })
   },
   delete : async (id)=>{
-    return {{firstUppercase}}.destroy({
+    return prisma.{{id}}.delete({
       where : {
         id : id 
       }

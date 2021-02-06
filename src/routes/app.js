@@ -22,7 +22,7 @@ router.use((req, res, next) => {
 })
 
 router.get('/', async (req, res) => {
-  app = await appService.findAll()
+  app = await appService.findMany()
   res.send(app);
 })
 
@@ -32,7 +32,7 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) =>{
-  newApp = await appService.create(req.body)
+  newApp = await appService.create(req.body, req.user)
   res.send(newApp)
 })
 

@@ -9,7 +9,7 @@ const router = express();
 
 
 router.use((req, res, next) => {
-  const token = req.headers['authorization'];
+  const token = req.headers['Authorization'];
 
   jwt.verify(token, JWT_KEY, function (err, data) {
       if (err) {
@@ -22,7 +22,7 @@ router.use((req, res, next) => {
 })
 
 router.get('/', async (req, res) => {
-  app = await appService.findAll()
+  app = await appService.findMany()
   res.send(app);
 })
 
@@ -32,17 +32,17 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) =>{
-  new = await appService.create(req.body)
-  res.send(new)
+  newApp = await appService.create(req.body)
+  res.send(newApp)
 })
 
 router.put('/:id', async (req, res) =>{
-  updated = await appService.update(req.params.id, req.body)
+  updatedApp = await appService.update(req.params.id, req.body)
   res.send({ updated : true, id : req.params.id})
 })
 
 router.delete('/:id', async (req, res) =>{
-  deleted = await appService.delete(req.params.id)
+  deletedApp = await appService.delete(req.params.id)
   res.send({ deleted : true, id : req.params.id})
 })
 

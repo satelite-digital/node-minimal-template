@@ -22,7 +22,7 @@ router.use((req, res, next) => {
 })
 
 router.get('/', async (req, res) => {
-  user = await userService.findAll()
+  user = await userService.findMany()
   res.send(user);
 })
 
@@ -32,7 +32,7 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) =>{
-  newUser = await userService.create(req.body)
+  newUser = await userService.create(req.body, req.user)
   res.send(newUser)
 })
 

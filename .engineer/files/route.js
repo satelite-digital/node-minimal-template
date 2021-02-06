@@ -22,7 +22,7 @@ router.use((req, res, next) => {
 })
 
 router.get('/', async (req, res) => {
-  {{id}} = await {{id}}Service.findAll()
+  {{id}} = await {{id}}Service.findMany()
   res.send({{id}});
 })
 
@@ -32,17 +32,17 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) =>{
-  new{{firstUppercase}} = await {{id}}Service.create(req.body)
-  res.send(new{{firstUppercase}})
+  new{{capitalized}} = await {{id}}Service.create(req.body, req.user)
+  res.send(new{{capitalized}})
 })
 
 router.put('/:id', async (req, res) =>{
-  updated{{firstUppercase}} = await {{id}}Service.update(req.params.id, req.body)
+  updated{{capitalized}} = await {{id}}Service.update(req.params.id, req.body)
   res.send({ updated : true, id : req.params.id})
 })
 
 router.delete('/:id', async (req, res) =>{
-  deleted{{firstUppercase}} = await {{id}}Service.delete(req.params.id)
+  deleted{{capitalized}} = await {{id}}Service.delete(req.params.id)
   res.send({ deleted : true, id : req.params.id})
 })
 

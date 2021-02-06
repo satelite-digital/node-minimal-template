@@ -1,23 +1,22 @@
-// api/db/services/user.js
-const App = require('../models/app');
+const prisma = require('../prisma')
 
 module.exports = {
-  findAll: async (id) => {
-    return App.findAll();
+  findMany: async (id) => {
+    return prisma.app.findMany();
   },
   findById: async (id) => {
-    return App.findOne({ where : { id: id } });
+    return prisma.app.findUnique({ where : { id: id } });
   },
-  create : async (data)=>{
-    return App.create(data)
+  create : async (data, user)=>{
+    return prisma.app.create({ data })
   },
   update : async (id, data)=>{
-    return App.update(data, { where : {
-      id : id || App.id
+    return prisma.app.update({ data , where : {
+      id : id || prisma.app.id
     } })
   },
   delete : async (id)=>{
-    return App.destroy({
+    return prisma.app.delete({
       where : {
         id : id 
       }

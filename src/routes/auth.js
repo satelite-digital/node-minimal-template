@@ -1,5 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+
 const passport = require('passport');
 const { Strategy } = require('passport-github');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
@@ -35,6 +36,25 @@ function (token, refreshToken, profile, cb) {
   return cb(null, profile);
 }
 ));
+
+router.get('/self', async (req, res, next)=>{
+  const token = req.headers['authorization'];
+
+  jwt.verify(token, JWT_KEY, async (err, data)=>{
+      if (err) {
+          res.status(401).send({ error: "NotAuthorized" })
+      } else {
+          const user = await users.findMany({ where : { oAuthId : data.id }})
+          console.log(user)
+          if(user && user.length){
+            res.send(user[0])
+          }else{
+            res.status(401).send({ error: "NotAuthorized" })
+          }
+      }
+  })
+
+})
 
 // Github auth route and callback
 router.get('/github', (req, res, next) => {

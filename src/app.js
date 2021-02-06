@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 require('dotenv').config()
 
-require('./sequelize');
 
 const cors = require('cors')
 
@@ -30,8 +29,6 @@ passport.serializeUser(function (user, cb) {
 });
 
 app.use('/auth', require('./routes/auth'))
-
-app.use('/api/user', require('./routes/user'))
 
 app.use('/api/user', require('./routes/user'))
 app.use('/api/app', require('./routes/app'))

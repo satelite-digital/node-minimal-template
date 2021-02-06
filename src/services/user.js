@@ -1,14 +1,13 @@
-// api/db/services/user.js
-const User = require('../models/user');
+const prisma = require('../prisma')
 
 module.exports = {
   findOrCreate: async (oAuthData) => {
     
     try {
-      const user = await User.findOne( { where : { oAuthId: oAuthData.id } });
+      const user = await prisma.user.findFirst( { where : { oAuthId: oAuthData.id } });
 
       if (!user) {
-        const newUser =  await User.create({oAuthId: oAuthData.id, oAuthData: oAuthData})
+        const newUser =  await prisma.user.create({ data : {oAuthId: oAuthData.id, oAuthData: oAuthData} })
         return newUser
       }
       return user;
@@ -16,22 +15,22 @@ module.exports = {
       return Error('User not found');
     }
   },
-  findAll: async (id) => {
-    return User.findAll();
+  findMany: async (id) => {
+    return prisma.user.findMany();
   },
   findById: async (id) => {
-    return User.findOne({ where : { id: id } });
+    return prisma.user.findUnique({ where : { id: id } });
   },
-  create : async (data)=>{
-    return User.create(data)
+  create : async (data, user)=>{
+    return prisma.user.create({ data })
   },
   update : async (id, data)=>{
-    return User.update(data, { where : {
-      id : id || User.id
+    return prisma.user.update({ data , where : {
+      id : id || prisma.user.id
     } })
   },
   delete : async (id)=>{
-    return User.destroy({
+    return prisma.user.delete({
       where : {
         id : id 
       }
